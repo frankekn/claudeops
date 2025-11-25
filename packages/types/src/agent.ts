@@ -39,10 +39,10 @@ export interface Agent {
 export type AgentResponse = Agent[];
 
 export const ALLOWED_MODELS = [
-	CLAUDE_MODEL_IDS.OPUS_4,
-	CLAUDE_MODEL_IDS.OPUS_4_1,
-	CLAUDE_MODEL_IDS.SONNET_4,
+	CLAUDE_MODEL_IDS.HAIKU_4_5,
 	CLAUDE_MODEL_IDS.SONNET_4_5,
+	CLAUDE_MODEL_IDS.OPUS_4_1,
+	CLAUDE_MODEL_IDS.OPUS_4_5,
 ] as const;
 
 export type AllowedModel = (typeof ALLOWED_MODELS)[number];

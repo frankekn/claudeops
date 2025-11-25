@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
 import { Config } from "@ccflare/config";
+import { CLAUDE_MODEL_IDS } from "@ccflare/core";
 import { Logger } from "@ccflare/logger";
 import {
 	type Agent,
@@ -123,14 +124,14 @@ export class AgentRegistry {
 			// Handle shorthand model names
 			if (data.model) {
 				const modelLower = data.model.toLowerCase();
-				if (modelLower === "opus") {
-					model = ALLOWED_MODELS[0]; // claude-opus-4-20250514
-				} else if (modelLower === "sonnet") {
-					model = ALLOWED_MODELS[3]; // claude-sonnet-4-5-20250929 (latest)
-				} else if (modelLower === "sonnet-4") {
-					model = ALLOWED_MODELS[2]; // claude-sonnet-4-20250514
-				} else if (modelLower === "sonnet-4.5") {
-					model = ALLOWED_MODELS[3]; // claude-sonnet-4-5-20250929
+				if (modelLower === "haiku" || modelLower === "haiku-4.5") {
+					model = CLAUDE_MODEL_IDS.HAIKU_4_5 as AllowedModel;
+				} else if (modelLower === "sonnet" || modelLower === "sonnet-4.5") {
+					model = CLAUDE_MODEL_IDS.SONNET_4_5 as AllowedModel;
+				} else if (modelLower === "opus" || modelLower === "opus-4.5") {
+					model = CLAUDE_MODEL_IDS.OPUS_4_5 as AllowedModel;
+				} else if (modelLower === "opus-4.1") {
+					model = CLAUDE_MODEL_IDS.OPUS_4_1 as AllowedModel;
 				} else if (this.isValidModel(data.model)) {
 					model = data.model as AllowedModel;
 				} else {

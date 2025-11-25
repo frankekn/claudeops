@@ -186,16 +186,21 @@ Examples:
 		const config = new Config();
 		// Validate the model
 		const modelMap: Record<string, string> = {
-			"opus-4": CLAUDE_MODEL_IDS.OPUS_4,
-			"sonnet-4": CLAUDE_MODEL_IDS.SONNET_4,
+			haiku: CLAUDE_MODEL_IDS.HAIKU_4_5,
+			"haiku-4.5": CLAUDE_MODEL_IDS.HAIKU_4_5,
+			sonnet: CLAUDE_MODEL_IDS.SONNET_4_5,
 			"sonnet-4.5": CLAUDE_MODEL_IDS.SONNET_4_5,
 			"opus-4.1": CLAUDE_MODEL_IDS.OPUS_4_1,
+			opus: CLAUDE_MODEL_IDS.OPUS_4_5,
+			"opus-4.5": CLAUDE_MODEL_IDS.OPUS_4_5,
 		};
 
 		const fullModel = modelMap[parsed.setModel];
 		if (!fullModel) {
-			console.error(`❌ Invalid model: ${parsed.setModel}`);
-			console.error("Valid models: opus-4, sonnet-4, sonnet-4.5, opus-4.1");
+			console.error(`Invalid model: ${parsed.setModel}`);
+			console.error(
+				"Valid models: haiku, sonnet, opus, haiku-4.5, sonnet-4.5, opus-4.1, opus-4.5",
+			);
 			process.exit(1);
 		}
 
