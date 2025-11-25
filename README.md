@@ -1,4 +1,6 @@
-# ccflare 🛡️
+# claudeops 🛡️
+
+> Forked from [ccflare](https://github.com/snipeship/ccflare) by [snipeship](https://github.com/snipeship)
 
 **Track Every Request. Go Low-Level. Never Hit Rate Limits Again.**
 
@@ -8,9 +10,9 @@ The ultimate Claude API proxy with intelligent load balancing across multiple ac
 https://github.com/user-attachments/assets/c859872f-ca5e-4f8b-b6a0-7cc7461fe62a
 
 
-![ccflare Dashboard](apps/lander/src/screenshot-dashboard.png)
+![claudeops Dashboard](apps/lander/src/screenshot-dashboard.png)
 
-## Why ccflare?
+## Why claudeops?
 
 - **🚀 Zero Rate Limit Errors** - Automatically distribute requests across multiple accounts
 - **📊 Request-Level Analytics** - Track latency, token usage, and costs in real-time  
@@ -22,11 +24,11 @@ https://github.com/user-attachments/assets/c859872f-ca5e-4f8b-b6a0-7cc7461fe62a
 
 ```bash
 # Clone and install
-git clone https://github.com/snipeship/ccflare
-cd ccflare
+git clone https://github.com/frankekn/claudeops
+cd claudeops
 bun install
 
-# Start ccflare (TUI + Server)
+# Start claudeops (TUI + Server)
 bun run ccflare
 
 # Configure Claude SDK

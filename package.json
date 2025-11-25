@@ -1,6 +1,10 @@
 {
 	"private": true,
-	"name": "ccflare",
+	"name": "claudeops",
+	"author": "Frank Yang <vibespecs@gmail.com>",
+	"contributors": [
+		"snipeship <ytzhxk@gmail.com>"
+	],
 	"workspaces": [
 		"apps/*",
 		"packages/*"
@@ -12,7 +16,6 @@
 		"start": "bun run apps/server/src/server.ts",
 		"server": "bun run apps/server/src/server.ts",
 		"dev:server": "bun run --hot apps/server/src/server.ts",
-		"dev:dashboard": "bun --hot packages/dashboard-web/src/index.tsx",
 		"typecheck": "bunx tsc --noEmit",
 		"build": "bun run build:dashboard && bun run build:tui",
 		"build:dashboard": "bun run --cwd packages/dashboard-web build",
