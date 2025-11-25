@@ -10,7 +10,7 @@
 		"packages/*"
 	],
 	"scripts": {
-		"ccflare": "bun run build && bun run tui",
+		"claudeops": "bun run build && bun run tui",
 		"tui": "bun run apps/tui/src/main.ts",
 		"dev": "bun run tui",
 		"start": "bun run apps/server/src/server.ts",

@@ -5,6 +5,17 @@ import {
 } from "@ccflare/types";
 import { normalizeText } from "../utils/normalize-text";
 
+interface ContentBlockItem {
+	type: string;
+	text?: string;
+	thinking?: string;
+	id?: string;
+	name?: string;
+	input?: Record<string, unknown>;
+	tool_use_id?: string;
+	content?: string | Array<{ type: string; text?: string }>;
+}
+
 export function parseRequestMessages(body: string | null): MessageData[] {
 	if (!body) return [];
 
@@ -73,31 +84,27 @@ export function parseRequestMessages(body: string | null): MessageData[] {
 									input: item.input,
 								});
 							} else if (item.type === "tool_result") {
-								const resultContent = Array.isArray((item as any).content)
-									? (
-											(item as any).content as Array<{
-												type: string;
-												text?: string;
-											}>
-										)
+								const toolResultItem = item as ContentBlockItem;
+								const resultContent = Array.isArray(toolResultItem.content)
+									? toolResultItem.content
 											.map((c) =>
 												normalizeText(typeof c.text === "string" ? c.text : ""),
 											)
 											.join("")
-									: typeof (item as any).content === "string"
-										? normalizeText((item as any).content as string)
+									: typeof toolResultItem.content === "string"
+										? normalizeText(toolResultItem.content)
 										: "";
 								message.toolResults?.push({
-									tool_use_id: (item as any).tool_use_id || "",
+									tool_use_id: toolResultItem.tool_use_id || "",
 									content: resultContent,
 								});
 								message.contentBlocks?.push({
 									type: ContentBlockType.ToolResult,
-									tool_use_id: (item as any).tool_use_id,
+									tool_use_id: toolResultItem.tool_use_id,
 									content: resultContent,
 								});
 							} else if (item.type === "thinking") {
-								const thinking = normalizeText((item as any).thinking || "");
+								const thinking = normalizeText(item.thinking || "");
 								if (thinking) {
 									message.contentBlocks?.push({
 										type: ContentBlockType.Thinking,
@@ -232,7 +239,7 @@ export function parseAssistantMessage(body: string | null): MessageData | null {
 					if (typeof parsed.content === "string") {
 						currentContent = normalizeText(parsed.content);
 					} else if (Array.isArray(parsed.content)) {
-						for (const item of parsed.content) {
+						for (const item of parsed.content as ContentBlockItem[]) {
 							if (item.type === "text" && item.text) {
 								const norm = normalizeText(item.text);
 								currentContent += norm;
@@ -248,10 +255,12 @@ export function parseAssistantMessage(body: string | null): MessageData | null {
 								});
 								message.contentBlocks?.push({
 									type: ContentBlockType.ToolUse,
-									...item,
+									id: item.id,
+									name: item.name,
+									input: item.input,
 								});
 							} else if (item.type === "thinking") {
-								const thinking = normalizeText((item as any).thinking || "");
+								const thinking = normalizeText(item.thinking || "");
 								if (thinking) {
 									message.contentBlocks?.push({
 										type: ContentBlockType.Thinking,
@@ -259,27 +268,22 @@ export function parseAssistantMessage(body: string | null): MessageData | null {
 									});
 								}
 							} else if (item.type === "tool_result") {
-								const resultContent = Array.isArray((item as any).content)
-									? (
-											(item as any).content as Array<{
-												type: string;
-												text?: string;
-											}>
-										)
+								const resultContent = Array.isArray(item.content)
+									? item.content
 											.map((c) =>
 												normalizeText(typeof c.text === "string" ? c.text : ""),
 											)
 											.join("")
-									: typeof (item as any).content === "string"
-										? normalizeText((item as any).content as string)
+									: typeof item.content === "string"
+										? normalizeText(item.content)
 										: "";
 								message.toolResults?.push({
-									tool_use_id: (item as any).tool_use_id || "",
+									tool_use_id: item.tool_use_id || "",
 									content: resultContent,
 								});
 								message.contentBlocks?.push({
 									type: ContentBlockType.ToolResult,
-									tool_use_id: (item as any).tool_use_id,
+									tool_use_id: item.tool_use_id,
 									content: resultContent,
 								});
 							}
